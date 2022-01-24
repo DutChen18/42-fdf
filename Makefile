@@ -1,6 +1,7 @@
-SRC=main.c math.c util.c transform.c img.c matrix.c
+SRC=main.c math.c util.c transform.c img.c matrix.c render.c \
+	get_next_line/get_next_line.c get_next_line/get_next_line_utils.c
 OBJ=$(SRC:.c=.o)
-CFLAGS=-Wall -Wextra -Werror -Og -g -fsanitize=address
+CFLAGS=-Wall -Wextra -Werror -Og -g -fsanitize=address -DBUFFER_SIZE=256
 NAME=fdf
 
 all: $(NAME)
@@ -8,7 +9,7 @@ all: $(NAME)
 $(NAME): $(OBJ) mlx/libmlx.a libft/libft.a
 	$(CC) $(CFLAGS) -o $@ $^ -framework OpenGL -framework AppKit
 
-%.o: %.c $(INC)
+%.o: %.c
 	$(CC) $(CFLAGS) -o $@ $< -c
 
 mlx/libmlx.a:
@@ -25,5 +26,8 @@ clean:
 fclean: clean
 	rm -f $(NAME)
 	make -C libft fclean
+
+norm:
+	norminette *.c *.h libft/*.c libft/*.h get_next_line/*.c get_next_line/*.h
 
 re: fclean all

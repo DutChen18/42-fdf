@@ -6,13 +6,13 @@
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/18 14:44:31 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/01/24 10:09:38 by csteenvo      ########   odam.nl         */
+/*   Updated: 2022/01/24 16:06:29 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static t_vec
+t_vec
 	mat_column(t_mat lhs, int rhs)
 {
 	return (vec_new(
@@ -22,7 +22,7 @@ static t_vec
 			lhs.el[3].el[rhs]));
 }
 
-static t_mat
+t_mat
 	mat_transpose(t_mat lhs)
 {
 	return (mat_new(

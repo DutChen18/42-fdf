@@ -6,7 +6,7 @@
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/20 11:51:39 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/01/24 10:21:22 by csteenvo      ########   odam.nl         */
+/*   Updated: 2022/01/24 15:59:06 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void
 		return ;
 	if (y < 0 || y >= fdf->win_height)
 		return ;
-	data = mlx_get_data_addr(fdf->img_ptr, &bpp, &size, &endian);
+	data = mlx_get_data_addr(fdf->img, &bpp, &size, &endian);
 	fdf_assert(data != NULL, "mlx_get_data_addr");
 	data[x * 4 + y * size + 0] = color >> 0 & 0xFF;
 	data[x * 4 + y * size + 1] = color >> 8 & 0xFF;

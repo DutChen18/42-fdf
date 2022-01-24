@@ -6,7 +6,7 @@
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/18 14:20:27 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/01/24 10:21:56 by csteenvo      ########   odam.nl         */
+/*   Updated: 2022/01/24 16:03:33 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,16 @@ struct s_mat {
 };
 
 struct s_vert {
-	int		y;
+	int		height;
 	t_vec	pos;
 	int		color;
 };
 
 struct s_fdf {
-	void	*mlx_ptr;
-	void	*win_ptr;
-	void	*img_ptr;
-	t_vert	*map_ptr;
+	void	*mlx;
+	void	*win;
+	void	*img;
+	t_vert	*map;
 	int		win_width;
 	int		win_height;
 	size_t	map_width;
@@ -45,6 +45,7 @@ struct s_fdf {
 };
 
 void	fdf_assert(int condition, const char *message);
+t_vert	*fdf_read(size_t *width, size_t *height, const char *filename);
 
 t_vec	mat_column(t_mat lhs, int rhs);
 t_mat	mat_transpose(t_mat lhs);
@@ -66,5 +67,8 @@ t_mat	mat_ortho(t_vec min, t_vec max);
 void	img_put(t_fdf *fdf, int x, int y, int color);
 void	img_clear(t_fdf *fdf, int color);
 void	img_line(t_fdf *fdf, t_vert from, t_vert to);
+
+void	fdf_update(t_fdf *fdf);
+void	fdf_render(t_fdf *fdf);
 
 #endif
