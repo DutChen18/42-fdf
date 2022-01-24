@@ -6,14 +6,14 @@
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/18 14:44:31 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/01/20 16:00:31 by csteenvo      ########   odam.nl         */
+/*   Updated: 2022/01/24 10:09:38 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
 static t_vec
-	column(t_mat lhs, int rhs)
+	mat_column(t_mat lhs, int rhs)
 {
 	return (vec_new(
 			lhs.el[0].el[rhs],
@@ -23,13 +23,13 @@ static t_vec
 }
 
 static t_mat
-	transpose(t_mat lhs)
+	mat_transpose(t_mat lhs)
 {
 	return (mat_new(
-			column(lhs, 0),
-			column(lhs, 1),
-			column(lhs, 2),
-			column(lhs, 3)));
+			mat_column(lhs, 0),
+			mat_column(lhs, 1),
+			mat_column(lhs, 2),
+			mat_column(lhs, 3)));
 }
 
 float
@@ -55,7 +55,7 @@ t_vec
 t_mat
 	mul_mm(t_mat lhs, t_mat rhs)
 {
-	rhs = transpose(rhs);
+	rhs = mat_transpose(rhs);
 	return (mat_new(
 			mul_vm(lhs.el[0], rhs),
 			mul_vm(lhs.el[1], rhs),

@@ -1,24 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   util.c                                             :+:    :+:            */
+/*   ft_bzero.c                                         :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/01/24 10:15:10 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/01/24 10:17:08 by csteenvo      ########   odam.nl         */
+/*   Created: 2022/01/18 13:30:34 by csteenvo      #+#    #+#                 */
+/*   Updated: 2022/01/18 13:30:34 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
-#include <stdlib.h>
+#include "libft.h"
 
 void
-	fdf_assert(int condition, const char *message)
+	ft_bzero(void *ptr, size_t size)
 {
-	if (!condition)
-	{
-		(void) message;
-		exit(EXIT_FAILURE);
-	}
+	ft_memset(ptr, 0, size);
 }

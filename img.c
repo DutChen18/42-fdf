@@ -6,7 +6,7 @@
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/20 11:51:39 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/01/20 14:44:53 by csteenvo      ########   odam.nl         */
+/*   Updated: 2022/01/24 10:21:22 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,19 @@
 #include <math.h>
 
 void
-	img_put(void *img, int x, int y, int color)
+	img_put(t_fdf *fdf, int x, int y, int color)
 {
 	char	*data;
 	int		bpp;
 	int		size;
 	int		endian;
 
-	if (x < 0 || x >= FDF_WIDTH)
+	if (x < 0 || x >= fdf->win_width)
 		return ;
-	if (y < 0 || y >= FDF_HEIGHT)
+	if (y < 0 || y >= fdf->win_height)
 		return ;
-	data = mlx_get_data_addr(img, &bpp, &size, &endian);
+	data = mlx_get_data_addr(fdf->img_ptr, &bpp, &size, &endian);
+	fdf_assert(data != NULL, "mlx_get_data_addr");
 	data[x * 4 + y * size + 0] = color >> 0 & 0xFF;
 	data[x * 4 + y * size + 1] = color >> 8 & 0xFF;
 	data[x * 4 + y * size + 2] = color >> 16 & 0xFF;
@@ -34,46 +35,39 @@ void
 }
 
 void
-	img_clear(void *img, int color)
+	img_clear(t_fdf *fdf, int color)
 {
-	int	x;
-	int	y;
+	int	i;
 
-	x = 0;
-	while (x < FDF_WIDTH)
+	i = 0;
+	while (i < fdf->win_width * fdf->win_height)
 	{
-		y = 0;
-		while (y < FDF_HEIGHT)
-		{
-			img_put(img, x, y, color);
-			y += 1;
-		}
-		x += 1;
+		img_put(fdf, i % fdf->win_width, i / fdf->win_height, color);
+		i += 1;
 	}
 }
 
 void
-	img_line(void *img, t_vec from, t_vec to, int color)
+	img_line(t_fdf *fdf, t_vert from, t_vert to)
 {
-	float	dx;
-	float	dy;
+	t_vec	delta;
 	float	step;
 	int		i;
 
-	dx = (to.el[0] - from.el[0]);
-	dy = (to.el[1] - from.el[1]);
-	if (fabs(dx) > fabs(dy))
-		step = fabs(dx);
+	delta.el[0] = (to.pos.el[0] - from.pos.el[0]);
+	delta.el[1] = (to.pos.el[1] - from.pos.el[1]);
+	if (fabs(delta.el[0]) > fabs(delta.el[1]))
+		step = fabs(delta.el[0]);
 	else
-		step = fabs(dy);
-	dx /= step;
-	dy /= step;
+		step = fabs(delta.el[1]);
+	delta.el[0] /= step;
+	delta.el[1] /= step;
 	i = 0;
 	while (i <= step)
 	{
-		img_put(img, from.el[0], from.el[1], color);
-		from.el[0] += dx;
-		from.el[1] += dy;
+		img_put(fdf, from.pos.el[0], from.pos.el[1], from.color);
+		from.pos.el[0] += delta.el[0];
+		from.pos.el[1] += delta.el[1];
 		i += 1;
 	}
 }

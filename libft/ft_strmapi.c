@@ -1,24 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   util.c                                             :+:    :+:            */
+/*   ft_strmapi.c                                       :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/01/24 10:15:10 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/01/24 10:17:08 by csteenvo      ########   odam.nl         */
+/*   Created: 2022/01/18 13:30:47 by csteenvo      #+#    #+#                 */
+/*   Updated: 2022/01/18 13:30:47 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "libft.h"
 #include <stdlib.h>
 
-void
-	fdf_assert(int condition, const char *message)
+char
+	*ft_strmapi(const char *str, char (*func)(unsigned int, char))
 {
-	if (!condition)
+	char			*res;
+	unsigned int	i;
+
+	if (FT_SAFE >= 1 && str == NULL)
+		return (NULL);
+	res = malloc(ft_strlen(str) + 1);
+	if (res == NULL)
+		return (NULL);
+	i = 0;
+	while (str[i])
 	{
-		(void) message;
-		exit(EXIT_FAILURE);
+		res[i] = func(i, str[i]);
+		i += 1;
 	}
+	res[i] = '\0';
+	return (res);
 }

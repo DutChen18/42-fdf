@@ -1,24 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   util.c                                             :+:    :+:            */
+/*   ft_lstmap_bonus.c                                  :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/01/24 10:15:10 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/01/24 10:17:08 by csteenvo      ########   odam.nl         */
+/*   Created: 2022/01/18 13:30:39 by csteenvo      #+#    #+#                 */
+/*   Updated: 2022/01/18 13:30:39 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
-#include <stdlib.h>
+#include "libft.h"
 
-void
-	fdf_assert(int condition, const char *message)
+t_list
+	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
-	if (!condition)
+	t_list	*new;
+	void	*content;
+
+	if (lst == NULL)
+		return (NULL);
+	content = f(lst->content);
+	new = ft_lstnew(content);
+	if (new == NULL)
+		return (NULL);
+	new->next = ft_lstmap(lst->next, f, del);
+	if (new->next == NULL && lst->next != NULL)
 	{
-		(void) message;
-		exit(EXIT_FAILURE);
+		ft_lstdelone(new, del);
+		return (NULL);
 	}
+	return (new);
 }

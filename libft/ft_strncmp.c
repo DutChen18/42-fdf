@@ -1,24 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   util.c                                             :+:    :+:            */
+/*   ft_strncmp.c                                       :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/01/24 10:15:10 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/01/24 10:17:08 by csteenvo      ########   odam.nl         */
+/*   Created: 2022/01/18 13:30:48 by csteenvo      #+#    #+#                 */
+/*   Updated: 2022/01/18 13:30:48 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
-#include <stdlib.h>
+#include "libft.h"
 
-void
-	fdf_assert(int condition, const char *message)
+int
+	ft_strncmp(const char *str1, const char *str2, size_t len)
 {
-	if (!condition)
+	size_t	i;
+
+	i = 0;
+	while (i < len)
 	{
-		(void) message;
-		exit(EXIT_FAILURE);
+		if ((unsigned char) str1[i] != (unsigned char) str2[i])
+			return ((unsigned char) str1[i] - (unsigned char) str2[i]);
+		if ((unsigned char) str1[i] == 0)
+			return (0);
+		i += 1;
 	}
+	return (0);
 }

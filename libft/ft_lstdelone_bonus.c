@@ -1,24 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   util.c                                             :+:    :+:            */
+/*   ft_lstdelone_bonus.c                               :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/01/24 10:15:10 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/01/24 10:17:08 by csteenvo      ########   odam.nl         */
+/*   Created: 2022/01/18 13:30:37 by csteenvo      #+#    #+#                 */
+/*   Updated: 2022/01/18 13:30:37 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "libft.h"
 #include <stdlib.h>
 
 void
-	fdf_assert(int condition, const char *message)
+	ft_lstdelone(t_list *lst, void (*del)(void *))
 {
-	if (!condition)
-	{
-		(void) message;
-		exit(EXIT_FAILURE);
-	}
+	del(lst->content);
+	free(lst);
 }

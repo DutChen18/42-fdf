@@ -1,24 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   util.c                                             :+:    :+:            */
+/*   ft_strlcpy.c                                       :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/01/24 10:15:10 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/01/24 10:17:08 by csteenvo      ########   odam.nl         */
+/*   Created: 2022/01/18 13:30:47 by csteenvo      #+#    #+#                 */
+/*   Updated: 2022/01/18 13:30:47 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
-#include <stdlib.h>
+#include "libft.h"
 
-void
-	fdf_assert(int condition, const char *message)
+size_t
+	ft_strlcpy(char *dst, const char *src, size_t size)
 {
-	if (!condition)
+	size_t	len;
+
+	len = ft_strlen(src);
+	if (len + 1 < size)
+		ft_memcpy(dst, src, len + 1);
+	else if (size > 0)
 	{
-		(void) message;
-		exit(EXIT_FAILURE);
+		ft_memcpy(dst, src, size - 1);
+		dst[size - 1] = '\0';
 	}
+	return (len);
 }

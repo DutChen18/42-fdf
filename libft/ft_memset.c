@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   util.c                                             :+:    :+:            */
+/*   ft_memset.c                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/01/24 10:15:10 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/01/24 10:17:08 by csteenvo      ########   odam.nl         */
+/*   Created: 2022/01/18 13:30:42 by csteenvo      #+#    #+#                 */
+/*   Updated: 2022/01/18 13:30:42 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
-#include <stdlib.h>
+#include "libft.h"
 
 void
-	fdf_assert(int condition, const char *message)
+	*ft_memset(void *ptr, int ch, size_t size)
 {
-	if (!condition)
+	while (size)
 	{
-		(void) message;
-		exit(EXIT_FAILURE);
+		size -= 1;
+		((unsigned char *) ptr)[size] = ch;
 	}
+	return (ptr);
 }

@@ -1,24 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   util.c                                             :+:    :+:            */
+/*   ft_toupper.c                                       :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/01/24 10:15:10 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/01/24 10:17:08 by csteenvo      ########   odam.nl         */
+/*   Created: 2022/01/18 13:30:50 by csteenvo      #+#    #+#                 */
+/*   Updated: 2022/01/18 13:30:50 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
-#include <stdlib.h>
+#include "libft.h"
 
-void
-	fdf_assert(int condition, const char *message)
+int
+	ft_toupper(int ch)
 {
-	if (!condition)
-	{
-		(void) message;
-		exit(EXIT_FAILURE);
-	}
+	if (ch >= 'a' && ch <= 'z')
+		ch += 'A' - 'a';
+	return (ch);
 }

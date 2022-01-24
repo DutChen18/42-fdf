@@ -1,24 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   util.c                                             :+:    :+:            */
+/*   ft_lstnew_bonus.c                                  :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/01/24 10:15:10 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/01/24 10:17:08 by csteenvo      ########   odam.nl         */
+/*   Created: 2022/01/18 13:30:39 by csteenvo      #+#    #+#                 */
+/*   Updated: 2022/01/18 13:30:39 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "libft.h"
 #include <stdlib.h>
 
-void
-	fdf_assert(int condition, const char *message)
+t_list
+	*ft_lstnew(void *content)
 {
-	if (!condition)
-	{
-		(void) message;
-		exit(EXIT_FAILURE);
-	}
+	t_list	*lst;
+
+	lst = malloc(sizeof(*lst));
+	if (lst == NULL)
+		return (NULL);
+	lst->content = content;
+	lst->next = NULL;
+	return (lst);
 }

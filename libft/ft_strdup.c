@@ -1,24 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   util.c                                             :+:    :+:            */
+/*   ft_strdup.c                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/01/24 10:15:10 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/01/24 10:17:08 by csteenvo      ########   odam.nl         */
+/*   Created: 2022/01/18 13:30:45 by csteenvo      #+#    #+#                 */
+/*   Updated: 2022/01/18 13:30:45 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "libft.h"
 #include <stdlib.h>
 
-void
-	fdf_assert(int condition, const char *message)
+char
+	*ft_strdup(const char *str)
 {
-	if (!condition)
-	{
-		(void) message;
-		exit(EXIT_FAILURE);
-	}
+	size_t	len;
+	char	*res;
+
+	len = ft_strlen(str);
+	res = malloc(len + 1);
+	if (res == NULL)
+		return (NULL);
+	ft_memcpy(res, str, len + 1);
+	return (res);
 }

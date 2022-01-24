@@ -1,24 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   util.c                                             :+:    :+:            */
+/*   ft_striteri.c                                      :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/01/24 10:15:10 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/01/24 10:17:08 by csteenvo      ########   odam.nl         */
+/*   Created: 2022/01/18 13:30:45 by csteenvo      #+#    #+#                 */
+/*   Updated: 2022/01/18 13:30:45 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
-#include <stdlib.h>
+#include "libft.h"
 
 void
-	fdf_assert(int condition, const char *message)
+	ft_striteri(char *str, void (*func)(unsigned int, char*))
 {
-	if (!condition)
+	unsigned int	i;
+
+	if (FT_SAFE >= 1 && str == NULL)
+		return ;
+	i = 0;
+	while (str[i])
 	{
-		(void) message;
-		exit(EXIT_FAILURE);
+		func(i, str + i);
+		i += 1;
 	}
 }

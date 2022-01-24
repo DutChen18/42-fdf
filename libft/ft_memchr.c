@@ -1,24 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   util.c                                             :+:    :+:            */
+/*   ft_memchr.c                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/01/24 10:15:10 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/01/24 10:17:08 by csteenvo      ########   odam.nl         */
+/*   Created: 2022/01/18 13:30:40 by csteenvo      #+#    #+#                 */
+/*   Updated: 2022/01/18 13:30:40 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
-#include <stdlib.h>
+#include "libft.h"
 
 void
-	fdf_assert(int condition, const char *message)
+	*ft_memchr(const void *ptr, int ch, size_t size)
 {
-	if (!condition)
+	size_t	i;
+
+	i = 0;
+	while (i < size)
 	{
-		(void) message;
-		exit(EXIT_FAILURE);
+		if (((unsigned char *) ptr)[i] == (unsigned char) ch)
+			return ((unsigned char *) ptr + i);
+		i += 1;
 	}
+	return (NULL);
 }

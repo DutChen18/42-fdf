@@ -1,24 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   util.c                                             :+:    :+:            */
+/*   ft_putnbr_fd.c                                     :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/01/24 10:15:10 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/01/24 10:17:08 by csteenvo      ########   odam.nl         */
+/*   Created: 2022/01/18 13:30:43 by csteenvo      #+#    #+#                 */
+/*   Updated: 2022/01/18 13:30:43 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
-#include <stdlib.h>
+#include "libft.h"
+#include <unistd.h>
 
 void
-	fdf_assert(int condition, const char *message)
+	ft_putnbr_fd(int num, int fd)
 {
-	if (!condition)
-	{
-		(void) message;
-		exit(EXIT_FAILURE);
-	}
+	char	ch;
+
+	if (num < 0)
+		write(fd, "-", 1);
+	ch = '0' + (num % 10) * (1 - (num < 0) * 2);
+	if (num >= 10)
+		ft_putnbr_fd(num / 10, fd);
+	if (num <= -10)
+		ft_putnbr_fd(-(num / 10), fd);
+	write(fd, &ch, 1);
 }
