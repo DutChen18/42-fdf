@@ -6,7 +6,7 @@
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/24 10:15:10 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/01/25 10:13:35 by csteenvo      ########   odam.nl         */
+/*   Updated: 2022/01/25 13:55:16 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,34 @@ static char
 	return (fields);
 }
 
+static void
+	fdf_parse(t_vert *vert, const char *field)
+{
+	int	color;
+
+	vert->height = ft_atoi(field);
+	vert->col = vec_new(0.5f, 0.5f, 0.5f, 0);
+	while (*field != '\0' && *field != 'x')
+		field += 1;
+	if (*field == '\0')
+		return ;
+	color = 0;
+	while (ft_isalnum(*field))
+	{
+		color *= 16;
+		if (ft_isdigit(*field))
+			color += *field - '0';
+		else if (*field <= 'Z')
+			color += *field - 'A' + 10;
+		else
+			color += *field - 'a' + 10;
+		field += 1;
+	}
+	vert->col.el[0] = (float)((color >> 0) & 0xFF) / 0xFF;
+	vert->col.el[1] = (float)((color >> 8) & 0xFF) / 0xFF;
+	vert->col.el[2] = (float)((color >> 16) & 0xFF) / 0xFF;
+}
+
 static t_vert
 	*fdf_expand(t_vert *verts, size_t width, size_t height, char **fields)
 {
@@ -55,8 +83,7 @@ static t_vert
 	i = 0;
 	while (i < width)
 	{
-		new_verts[width * height + i].height = ft_atoi(fields[i]);
-		new_verts[width * height + i].color = 0xff0000;
+		fdf_parse(&new_verts[width * height + i], fields[i]);
 		i += 1;
 	}
 	return (new_verts);
@@ -91,7 +118,7 @@ t_vert
 	*height = 0;
 	while (fields != NULL)
 	{
-		fdf_assert(size == *width, "width not equal");
+		fdf_assert(size >= *width, "line too short");
 		verts = fdf_expand(verts, *width, *height, fields);
 		free(fields);
 		*height += 1;

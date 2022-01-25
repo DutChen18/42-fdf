@@ -6,7 +6,7 @@
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/18 14:44:31 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/01/24 16:06:29 by csteenvo      ########   odam.nl         */
+/*   Updated: 2022/01/25 15:04:57 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_mat
 float
 	mul_vv(t_vec lhs, t_vec rhs)
 {
-	return (0.0f
+	return (0
 		+ lhs.el[0] * rhs.el[0]
 		+ lhs.el[1] * rhs.el[1]
 		+ lhs.el[2] * rhs.el[2]

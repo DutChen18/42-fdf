@@ -6,7 +6,7 @@
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/20 11:51:39 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/01/25 10:10:27 by csteenvo      ########   odam.nl         */
+/*   Updated: 2022/01/25 15:04:07 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,34 +15,38 @@
 #include <math.h>
 
 void
-	img_put(t_fdf *fdf, int x, int y, int color)
+	img_put(t_fdf *fdf, t_vec pos, t_vec col)
 {
-	char	*data;
-	int		bpp;
-	int		size;
-	int		endian;
+	int	x;
+	int	y;
 
+	x = pos.el[0];
+	y = pos.el[1];
 	if (x < 0 || x >= fdf->win_width)
 		return ;
 	if (y < 0 || y >= fdf->win_height)
 		return ;
-	data = mlx_get_data_addr(fdf->img, &bpp, &size, &endian);
-	fdf_assert(data != NULL, "mlx_get_data_addr");
-	data[x * 4 + y * size + 0] = color >> 0 & 0xFF;
-	data[x * 4 + y * size + 1] = color >> 8 & 0xFF;
-	data[x * 4 + y * size + 2] = color >> 16 & 0xFF;
-	data[x * 4 + y * size + 3] = color >> 24 & 0xFF;
+	if (pos.el[2] > fdf->depth[x + y * fdf->win_width])
+		return ;
+	fdf->color[x * 4 + y * fdf->img_size + 0] = col.el[0] * 0xFF;
+	fdf->color[x * 4 + y * fdf->img_size + 1] = col.el[1] * 0xFF;
+	fdf->color[x * 4 + y * fdf->img_size + 2] = col.el[2] * 0xFF;
+	fdf->color[x * 4 + y * fdf->img_size + 3] = col.el[3] * 0xFF;
+	fdf->depth[x + y * fdf->win_width] = pos.el[2];
 }
 
 void
-	img_clear(t_fdf *fdf, int color)
+	img_clear(t_fdf *fdf, t_vec col)
 {
 	int	i;
 
 	i = 0;
 	while (i < fdf->win_width * fdf->win_height)
 	{
-		img_put(fdf, i % fdf->win_width, i / fdf->win_width, color);
+		fdf->color[i * 4 + 0] = col.el[0] * 0xFF;
+		fdf->color[i * 4 + 1] = col.el[1] * 0xFF;
+		fdf->color[i * 4 + 2] = col.el[2] * 0xFF;
+		fdf->depth[i] = INFINITY;
 		i += 1;
 	}
 }
@@ -50,24 +54,25 @@ void
 void
 	img_line(t_fdf *fdf, t_vert from, t_vert to)
 {
-	t_vec	delta;
+	t_vec	pos_delta;
+	t_vec	col_delta;
 	float	step;
 	int		i;
 
-	delta.el[0] = (to.pos.el[0] - from.pos.el[0]);
-	delta.el[1] = (to.pos.el[1] - from.pos.el[1]);
-	if (fabs(delta.el[0]) > fabs(delta.el[1]))
-		step = fabs(delta.el[0]);
+	pos_delta = vec_sub(to.pos, from.pos);
+	col_delta = vec_sub(to.col, from.col);
+	if (fabs(pos_delta.el[0]) > fabs(pos_delta.el[1]))
+		step = fabs(pos_delta.el[0]);
 	else
-		step = fabs(delta.el[1]);
-	delta.el[0] /= step;
-	delta.el[1] /= step;
+		step = fabs(pos_delta.el[1]);
+	pos_delta = vec_scale(pos_delta, 1 / step);
+	col_delta = vec_scale(col_delta, 1 / step);
 	i = 0;
 	while (i <= step)
 	{
-		img_put(fdf, from.pos.el[0], from.pos.el[1], from.color);
-		from.pos.el[0] += delta.el[0];
-		from.pos.el[1] += delta.el[1];
+		img_put(fdf, from.pos, from.col);
+		from.pos = vec_add(from.pos, pos_delta);
+		from.col = vec_add(from.col, col_delta);
 		i += 1;
 	}
 }

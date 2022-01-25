@@ -6,66 +6,62 @@
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/24 15:46:46 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/01/25 12:01:41 by csteenvo      ########   odam.nl         */
+/*   Updated: 2022/01/25 15:06:18 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include "mlx/mlx.h"
 #include <math.h>
-#include <stdio.h>
 
-static t_vec
-	trans(t_fdf *fdf, t_vec vec)
+static t_mat
+	compute_matrix(t_fdf *fdf)
 {
+	t_mat	proj;
 	t_mat	mat;
+	float	scale;
 
-	if (fdf->projection)
-	{
-		mat = mat_persp(
-				vec_new(-4.0f, -3.0f, 1.0f, 0.0f),
-				vec_new(4.0f, 3.0f, 100.0f, 0.0f));
-	}
+	if (fdf->map_width > fdf->map_height)
+		scale = 2.0 / fdf->map_width;
 	else
-	{
-		mat = mat_ortho(
-				vec_new(-4.0f, -3.0f, 1.0f, 0.0f),
-				vec_new(4.0f, 3.0f, 100.0f, 0.0f));
-	}
-	vec = mul_vm(vec, mat_rotate_z(fdf->rot_x));
-	vec = mul_vm(vec, mat_rotate_x(fdf->rot_y));
-	vec = mul_vm(vec, mat_scale(vec_new(fdf->scale, fdf->scale, fdf->scale, 0)));
-	vec = mul_vm(vec, mat_translate(vec_new(fdf->translate_x, fdf->translate_y, 0, 0)));
-	vec.el[2] -= 1.0f;
-	vec = mul_vm(vec, mat);
-	vec.el[0] /= vec.el[3];
-	vec.el[1] /= vec.el[3];
-	vec.el[2] /= vec.el[3];
-	vec.el[3] /= vec.el[3];
-	vec.el[0] = (vec.el[0] + 0.5f) * fdf->win_width;
-	vec.el[1] = (vec.el[1] + 0.5f) * fdf->win_height;
-	return (vec);
+		scale = 2.0 / fdf->map_height;
+	if (fdf->use_persp)
+		proj = mat_persp(
+				vec_new(-4, -3, 1, 0),
+				vec_new(4, 3, 100, 0));
+	else
+		proj = mat_ortho(
+				vec_new(-4, -3, 1, 0),
+				vec_new(4, 3, 100, 0));
+	mat = mat_scale(vec_new(scale, scale, scale, 1));
+	mat = mul_mm(mat_rotate_z(fdf->rotate.el[0]), mat);
+	mat = mul_mm(mat_rotate_x(fdf->rotate.el[1]), mat);
+	mat = mul_mm(mat_scale(fdf->scale), mat);
+	mat = mul_mm(mat_translate(fdf->translate), mat);
+	mat = mul_mm(proj, mat);
+	return (mat);
 }
 
 void
 	fdf_update(t_fdf *fdf)
 {
 	size_t	i;
-	float	x;
-	float	y;
-	float	s;
+	t_vec	vec;
+	t_mat	mat;
 
 	i = 0;
-	if (fdf->map_width > fdf->map_height)
-		s = fdf->map_width / 2.0;
-	else
-		s = fdf->map_height / 2.0;
+	mat = compute_matrix(fdf);
 	while (i < fdf->map_width * fdf->map_height)
 	{
-		x = (int)(i % fdf->map_width) - fdf->map_width / 2.0f + 0.5f;
-		y = (int)(i / fdf->map_width) - fdf->map_height / 2.0f + 0.5f;
-		fdf->map[i].pos = vec_new(x / s, y / s, fdf->map[i].height / s, 1);
-		fdf->map[i].pos = trans(fdf, fdf->map[i].pos);
+		vec.el[0] = (int)(i % fdf->map_width) - fdf->map_width / 2.0 + 0.5;
+		vec.el[1] = (int)(i / fdf->map_width) - fdf->map_height / 2.0 + 0.5;
+		vec.el[2] = fdf->map[i].height;
+		vec.el[3] = 1;
+		vec = mul_vm(vec, mat);
+		vec = vec_scale(vec, 1 / vec.el[3]);
+		vec.el[0] = (vec.el[0] + 0.5) * fdf->win_width;
+		vec.el[1] = (vec.el[1] + 0.5) * fdf->win_height;
+		fdf->map[i].pos = vec;
 		i += 1;
 	}
 }

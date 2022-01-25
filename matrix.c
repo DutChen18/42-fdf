@@ -6,7 +6,7 @@
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/20 10:00:25 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/01/25 11:52:25 by csteenvo      ########   odam.nl         */
+/*   Updated: 2022/01/25 15:05:23 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@ t_mat
 	mat_identity(void)
 {
 	return (mat_new(
-			vec_new(1.0f, 0.0f, 0.0f, 0.0f),
-			vec_new(0.0f, 1.0f, 0.0f, 0.0f),
-			vec_new(0.0f, 0.0f, 1.0f, 0.0f),
-			vec_new(0.0f, 0.0f, 0.0f, 1.0f)));
+			vec_new(1, 0, 0, 0),
+			vec_new(0, 1, 0, 0),
+			vec_new(0, 0, 1, 0),
+			vec_new(0, 0, 0, 1)));
 }
 
 t_mat
@@ -53,14 +53,14 @@ t_mat
 	t_mat	translate;
 
 	scale = mat_scale(vec_new(
-				2.0f / (max.el[0] - min.el[0]),
-				2.0f / (max.el[1] - min.el[1]),
-				2.0f / (min.el[2] - max.el[2]), 0.0f));
+				2 / (max.el[0] - min.el[0]),
+				2 / (max.el[1] - min.el[1]),
+				2 / (min.el[2] - max.el[2]), 0));
 	translate = mat_translate(vec_new(
-				(max.el[0] + min.el[0]) / (min.el[0] - max.el[0]),
-				(max.el[1] + min.el[1]) / (min.el[1] - max.el[1]),
-				(max.el[2] + min.el[2]) / (min.el[2] - max.el[2]), 0.0f));
-	return (mul_mm(translate, scale));
+				(max.el[0] + min.el[0]) / 2,
+				(max.el[1] + min.el[1]) / 2,
+				(max.el[2] + min.el[2]) / 2, 0));
+	return (mul_mm(scale, translate));
 }
 
 t_mat

@@ -6,7 +6,7 @@
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/18 14:20:27 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/01/25 11:39:29 by csteenvo      ########   odam.nl         */
+/*   Updated: 2022/01/25 13:42:57 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ struct s_mat {
 struct s_vert {
 	int		height;
 	t_vec	pos;
-	int		color;
+	t_vec	col;
 };
 
 struct s_fdf {
@@ -38,24 +38,24 @@ struct s_fdf {
 	void	*win;
 	void	*img;
 	t_vert	*map;
+	int		img_bpp;
+	int		img_size;
+	int		img_endian;
+	char	*color;
+	float	*depth;
 	int		win_width;
 	int		win_height;
 	size_t	map_width;
 	size_t	map_height;
-	float	translate_x;
-	float	translate_y;
-	float	scale;
-	float	rot_x;
-	float	rot_y;
-	int		mouse_left_down;
-	int		mouse_right_down;
+	t_vec	translate;
+	t_vec	scale;
+	t_vec	rotate;
+	int		mouse_1_down;
+	int		mouse_2_down;
 	int		mouse_x;
 	int		mouse_y;
-	int		projection;
+	int		use_persp;
 };
-
-void	fdf_assert(int condition, const char *message);
-t_vert	*fdf_read(size_t *width, size_t *height, const char *filename);
 
 t_vec	mat_column(t_mat lhs, int rhs);
 t_mat	mat_transpose(t_mat lhs);
@@ -69,15 +69,22 @@ t_mat	mat_rotate_x(float v);
 t_mat	mat_rotate_y(float v);
 t_mat	mat_rotate_z(float v);
 
+t_vec	vec_add(t_vec lhs, t_vec rhs);
+t_vec	vec_sub(t_vec lhs, t_vec rhs);
+t_vec	vec_scale(t_vec lhs, float rhs);
+
 t_vec	vec_new(float x, float y, float z, float w);
 t_mat	mat_new(t_vec x, t_vec y, t_vec z, t_vec w);
 t_mat	mat_identity(void);
 t_mat	mat_ortho(t_vec min, t_vec max);
 t_mat	mat_persp(t_vec min, t_vec max);
 
-void	img_put(t_fdf *fdf, int x, int y, int color);
-void	img_clear(t_fdf *fdf, int color);
+void	img_put(t_fdf *fdf, t_vec pos, t_vec col);
+void	img_clear(t_fdf *fdf, t_vec col);
 void	img_line(t_fdf *fdf, t_vert from, t_vert to);
+
+void	fdf_assert(int condition, const char *message);
+t_vert	*fdf_read(size_t *width, size_t *height, const char *filename);
 
 void	fdf_update(t_fdf *fdf);
 void	fdf_render(t_fdf *fdf);
