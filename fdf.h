@@ -6,7 +6,7 @@
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/18 14:20:27 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/01/25 13:42:57 by csteenvo      ########   odam.nl         */
+/*   Updated: 2022/01/25 15:54:46 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,25 @@ typedef struct s_mat	t_mat;
 typedef struct s_fdf	t_fdf;
 typedef struct s_vert	t_vert;
 
-struct s_vec {
+struct s_vec
+{
 	float	el[4];
 };
 
-struct s_mat {
+struct s_mat
+{
 	t_vec	el[4];
 };
 
-struct s_vert {
+struct s_vert
+{
 	int		height;
 	t_vec	pos;
 	t_vec	col;
 };
 
-struct s_fdf {
+struct s_fdf
+{
 	void	*mlx;
 	void	*win;
 	void	*img;

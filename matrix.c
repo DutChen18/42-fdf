@@ -6,7 +6,7 @@
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/20 10:00:25 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/01/25 15:05:23 by csteenvo      ########   odam.nl         */
+/*   Updated: 2022/01/25 16:22:30 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,10 @@ t_mat
 {
 	t_mat	mat;
 
-	mat = mat_ortho(min, max);
-	mat.el[3].el[2] = -1;
+	mat = mat_new(
+			vec_new((2 * min.el[2]) / (max.el[0] - min.el[0]), 0, (max.el[0] + min.el[0]) / (max.el[0] - min.el[0]), 0),
+			vec_new(0, (2 * min.el[2]) / (max.el[1] - min.el[1]), (max.el[1] + min.el[1]) / (max.el[1] - min.el[1]), 0),
+			vec_new(0, 0, -(max.el[2] + min.el[2]) / (max.el[2] - min.el[2]), (-2 * max.el[2] * min.el[2]) / (max.el[2] - min.el[2])),
+			vec_new(0, 0, -1, 0));
 	return (mat);
 }
