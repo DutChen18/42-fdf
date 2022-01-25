@@ -6,7 +6,7 @@
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/24 10:15:10 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/01/24 16:20:05 by csteenvo      ########   odam.nl         */
+/*   Updated: 2022/01/25 10:13:35 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static t_vert
 	while (i < width)
 	{
 		new_verts[width * height + i].height = ft_atoi(fields[i]);
-		new_verts[width * height + i].color = 0xff;
+		new_verts[width * height + i].color = 0xff0000;
 		i += 1;
 	}
 	return (new_verts);

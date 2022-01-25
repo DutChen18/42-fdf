@@ -1,7 +1,7 @@
-SRC=main.c math.c util.c transform.c img.c matrix.c render.c \
+SRC=main.c math.c util.c transform.c img.c matrix.c render.c mouse.c \
 	get_next_line/get_next_line.c get_next_line/get_next_line_utils.c
 OBJ=$(SRC:.c=.o)
-CFLAGS=-Wall -Wextra -Werror -Og -g -fsanitize=address -DBUFFER_SIZE=256
+CFLAGS=-Wall -Wextra -Werror -O3 -flto -march=native -DBUFFER_SIZE=256
 NAME=fdf
 
 all: $(NAME)

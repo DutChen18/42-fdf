@@ -6,7 +6,7 @@
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/20 11:51:39 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/01/24 15:59:06 by csteenvo      ########   odam.nl         */
+/*   Updated: 2022/01/25 10:10:27 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void
 	i = 0;
 	while (i < fdf->win_width * fdf->win_height)
 	{
-		img_put(fdf, i % fdf->win_width, i / fdf->win_height, color);
+		img_put(fdf, i % fdf->win_width, i / fdf->win_width, color);
 		i += 1;
 	}
 }

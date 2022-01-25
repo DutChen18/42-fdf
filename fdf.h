@@ -6,7 +6,7 @@
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/18 14:20:27 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/01/24 16:03:33 by csteenvo      ########   odam.nl         */
+/*   Updated: 2022/01/25 11:39:29 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,16 @@ struct s_fdf {
 	int		win_height;
 	size_t	map_width;
 	size_t	map_height;
+	float	translate_x;
+	float	translate_y;
+	float	scale;
+	float	rot_x;
+	float	rot_y;
+	int		mouse_left_down;
+	int		mouse_right_down;
+	int		mouse_x;
+	int		mouse_y;
+	int		projection;
 };
 
 void	fdf_assert(int condition, const char *message);
@@ -63,6 +73,7 @@ t_vec	vec_new(float x, float y, float z, float w);
 t_mat	mat_new(t_vec x, t_vec y, t_vec z, t_vec w);
 t_mat	mat_identity(void);
 t_mat	mat_ortho(t_vec min, t_vec max);
+t_mat	mat_persp(t_vec min, t_vec max);
 
 void	img_put(t_fdf *fdf, int x, int y, int color);
 void	img_clear(t_fdf *fdf, int color);
@@ -70,5 +81,9 @@ void	img_line(t_fdf *fdf, t_vert from, t_vert to);
 
 void	fdf_update(t_fdf *fdf);
 void	fdf_render(t_fdf *fdf);
+
+int		mouse_down_hook(int button, int x, int y, t_fdf *fdf);
+int		mouse_up_hook(int button, int x, int y, t_fdf *fdf);
+int		mouse_moved_hook(int x, int y, t_fdf *fdf);
 
 #endif

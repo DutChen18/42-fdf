@@ -6,7 +6,7 @@
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/20 10:00:25 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/01/24 10:15:26 by csteenvo      ########   odam.nl         */
+/*   Updated: 2022/01/25 11:52:25 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,18 @@ t_mat
 				2.0f / (max.el[1] - min.el[1]),
 				2.0f / (min.el[2] - max.el[2]), 0.0f));
 	translate = mat_translate(vec_new(
-				-(max.el[0] + min.el[0]) / (max.el[0] - min.el[0]),
-				-(max.el[1] + min.el[1]) / (max.el[1] - min.el[1]),
-				-(max.el[2] + min.el[2]) / (max.el[2] - min.el[2]), 0.0f));
+				(max.el[0] + min.el[0]) / (min.el[0] - max.el[0]),
+				(max.el[1] + min.el[1]) / (min.el[1] - max.el[1]),
+				(max.el[2] + min.el[2]) / (min.el[2] - max.el[2]), 0.0f));
 	return (mul_mm(translate, scale));
+}
+
+t_mat
+	mat_persp(t_vec min, t_vec max)
+{
+	t_mat	mat;
+
+	mat = mat_ortho(min, max);
+	mat.el[3].el[2] = -1;
+	return (mat);
 }
