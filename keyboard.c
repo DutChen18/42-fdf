@@ -6,13 +6,12 @@
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/27 11:18:44 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/01/27 12:22:44 by csteenvo      ########   odam.nl         */
+/*   Updated: 2022/01/27 15:15:14 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include <stdlib.h>
-#include <stdio.h>
 
 int
 	close_hook(t_fdf *fdf)

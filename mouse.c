@@ -6,7 +6,7 @@
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/25 11:29:12 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/01/25 15:03:54 by csteenvo      ########   odam.nl         */
+/*   Updated: 2022/01/27 16:04:38 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ int
 	}
 	if (fdf->mouse_2_down)
 	{
-		fdf->translate.el[0] += (float)(x - fdf->mouse_x) / fdf->win_height * 3;
-		fdf->translate.el[1] += (float)(y - fdf->mouse_y) / fdf->win_height * 3;
+		fdf->translate.el[0] += (float)(x - fdf->mouse_x) * (2.0 / fdf->win_width);
+		fdf->translate.el[1] += (float)(y - fdf->mouse_y) * (2.0 / fdf->win_width);
 	}
 	fdf->mouse_x = x;
 	fdf->mouse_y = y;

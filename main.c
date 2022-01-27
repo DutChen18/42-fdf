@@ -6,7 +6,7 @@
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/18 15:56:53 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/01/27 12:12:41 by csteenvo      ########   odam.nl         */
+/*   Updated: 2022/01/27 15:54:44 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,17 @@ static int
 static void
 	init_fdf(t_fdf *fdf)
 {
+	int	bpp;
+	int	size;
+	int	endian;
+
 	fdf->mlx = mlx_init();
 	fdf_assert(fdf->mlx != NULL, "mlx_init");
 	fdf->win = mlx_new_window(fdf->mlx, fdf->win_width, fdf->win_height, "FdF");
 	fdf_assert(fdf->win != NULL, "mlx_new_window");
 	fdf->img = mlx_new_image(fdf->mlx, fdf->win_width, fdf->win_height);
 	fdf_assert(fdf->img != NULL, "mlx_new_image");
-	fdf->color = mlx_get_data_addr(fdf->img,
-			&fdf->img_bpp, &fdf->img_size, &fdf->img_endian);
+	fdf->color = mlx_get_data_addr(fdf->img, &bpp, &size, &endian);
 	fdf_assert(fdf->color != NULL, "mlx_get_data_addr");
 	fdf->depth = malloc(fdf->win_width * fdf->win_height * sizeof(*fdf->depth));
 	fdf_assert(fdf->depth != NULL, "malloc");
@@ -73,6 +76,7 @@ static void
 			fdf->max = fdf->map[i].height;
 		i += 1;
 	}
+	fdf->map_scale = fdf->map_width + fdf->map_height + fdf->max - fdf->min;
 }
 
 int
@@ -86,7 +90,7 @@ int
 	init_fdf(&fdf);
 	fdf.map = fdf_read(&fdf.map_width, &fdf.map_height, argv[1]);
 	init_props(&fdf);
-	fdf.translate = vec_new(0, 0, -1, 0);
+	fdf.translate = vec_new(0, 0, 0, 0);
 	fdf.scale = vec_new(1, 1, 1, 1);
 	fdf.rotate = vec_new(M_PI / 4, M_PI / 4, 0, 0);
 	fdf.mouse_1_down = 0;

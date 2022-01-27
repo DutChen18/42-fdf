@@ -6,7 +6,7 @@
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/20 10:00:25 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/01/27 10:59:11 by csteenvo      ########   odam.nl         */
+/*   Updated: 2022/01/27 16:26:00 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,18 +49,22 @@ t_mat
 t_mat
 	mat_ortho(t_vec min, t_vec max)
 {
-	t_mat	scale;
-	t_mat	translate;
+	t_vec	v1;
+	t_vec	v2;
 
-	scale = mat_scale(vec_new(
-				2 / (max.el[0] - min.el[0]),
-				2 / (max.el[1] - min.el[1]),
-				2 / (min.el[2] - max.el[2]), 0));
-	translate = mat_translate(vec_new(
-				-(max.el[0] + min.el[0]) / 2,
-				-(max.el[1] + min.el[1]) / 2,
-				-(max.el[2] + min.el[2]) / 2, 0));
-	return (mul_mm(scale, translate));
+	v1 = vec_new(
+			2 / (max.el[0] - min.el[0]),
+			2 / (max.el[1] - min.el[1]),
+			2 / (min.el[2] - max.el[2]), 0);
+	v2 = vec_new(
+			(max.el[0] + min.el[0]) / (min.el[0] - max.el[0]),
+			(max.el[1] + min.el[1]) / (min.el[1] - max.el[1]),
+			(max.el[2] + min.el[2]) / (min.el[2] - max.el[2]), 0);
+	return (mat_new(
+			vec_new(v1.el[0], 0, 0, v2.el[0]),
+			vec_new(0, v1.el[1], 0, v2.el[1]),
+			vec_new(0, 0, v1.el[2], v2.el[2]),
+			vec_new(0, 0, 0, 1)));
 }
 
 t_mat

@@ -6,7 +6,7 @@
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/20 11:51:39 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/01/27 12:00:08 by csteenvo      ########   odam.nl         */
+/*   Updated: 2022/01/27 13:51:19 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ void
 		return ;
 	if (pos.el[2] > fdf->depth[x + y * fdf->win_width])
 		return ;
-	fdf->color[x * 4 + y * fdf->img_size + 0] = col.el[0] * 0xFF;
-	fdf->color[x * 4 + y * fdf->img_size + 1] = col.el[1] * 0xFF;
-	fdf->color[x * 4 + y * fdf->img_size + 2] = col.el[2] * 0xFF;
-	fdf->color[x * 4 + y * fdf->img_size + 3] = col.el[3] * 0xFF;
-	fdf->depth[x + y * fdf->win_width] = pos.el[2];
+	fdf->color[(x + y * fdf->win_width) * 4 + 0] = col.el[0] * 0xFF;
+	fdf->color[(x + y * fdf->win_width) * 4 + 1] = col.el[1] * 0xFF;
+	fdf->color[(x + y * fdf->win_width) * 4 + 2] = col.el[2] * 0xFF;
+	fdf->color[(x + y * fdf->win_width) * 4 + 3] = col.el[3] * 0xFF;
+	fdf->depth[(x + y * fdf->win_width)] = pos.el[2];
 }
 
 void

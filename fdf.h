@@ -6,7 +6,7 @@
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/18 14:20:27 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/01/27 12:12:12 by csteenvo      ########   odam.nl         */
+/*   Updated: 2022/01/27 15:54:08 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ struct s_vert
 	t_vec	pos;
 	t_vec	col;
 	t_vec	map_col;
+	int		clip;
 };
 
 struct s_fdf
@@ -43,9 +44,6 @@ struct s_fdf
 	void	*win;
 	void	*img;
 	t_vert	*map;
-	int		img_bpp;
-	int		img_size;
-	int		img_endian;
 	char	*color;
 	float	*depth;
 	int		win_width;
@@ -63,6 +61,7 @@ struct s_fdf
 	int		mouse_y;
 	int		use_persp;
 	int		color_mode;
+	float	map_scale;
 };
 
 t_vec	mat_column(t_mat lhs, int rhs);

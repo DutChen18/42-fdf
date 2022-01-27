@@ -6,7 +6,7 @@
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/24 10:15:10 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/01/27 12:00:29 by csteenvo      ########   odam.nl         */
+/*   Updated: 2022/01/27 16:22:35 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ static char
 	fields = ft_split(line, ' ');
 	free(line);
 	fdf_assert(fields != NULL, "ft_split");
+	fdf_assert(*fields != NULL, "empty line");
 	*size = 0;
 	while (fields[*size] != NULL)
 		*size += 1;
@@ -71,22 +72,24 @@ static t_vert
 	t_vert	*new_verts;
 	size_t	i;
 
-	new_verts = malloc(width * (height + 1) * sizeof(*new_verts));
-	fdf_assert(new_verts != NULL, "malloc");
-	i = 0;
-	while (i < width * height)
+	if ((height & (height - 1)) == 0)
 	{
-		new_verts[i] = verts[i];
-		i += 1;
+		if (height == 0)
+			new_verts = malloc(width * sizeof(*new_verts));
+		else
+			new_verts = malloc(width * height * 2 * sizeof(*new_verts));
+		fdf_assert(new_verts != NULL, "malloc");
+		ft_memcpy(new_verts, verts, width * height * sizeof(*verts));
+		free(verts);
+		verts = new_verts;
 	}
-	free(verts);
 	i = 0;
 	while (i < width)
 	{
-		fdf_parse(&new_verts[width * height + i], fields[i]);
+		fdf_parse(&verts[width * height + i], fields[i]);
 		i += 1;
 	}
-	return (new_verts);
+	return (verts);
 }
 
 void
@@ -111,8 +114,7 @@ t_vert
 	fd = open(filename, O_RDONLY);
 	fdf_assert(fd >= 0, strerror(errno));
 	fields = split_next_line(fd, &size);
-	fdf_assert(fields != NULL, "zero height");
-	fdf_assert(size != 0, "zero width");
+	fdf_assert(fields != NULL, "empty file");
 	verts = NULL;
 	*width = size;
 	*height = 0;
