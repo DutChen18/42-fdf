@@ -6,7 +6,7 @@
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/24 10:15:10 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/01/25 13:55:16 by csteenvo      ########   odam.nl         */
+/*   Updated: 2022/01/27 12:00:29 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void
 	int	color;
 
 	vert->height = ft_atoi(field);
-	vert->col = vec_new(0.5f, 0.5f, 0.5f, 0);
+	vert->map_col = vec_new(0.5f, 0.5f, 0.5f, 0);
 	while (*field != '\0' && *field != 'x')
 		field += 1;
 	if (*field == '\0')
@@ -60,9 +60,9 @@ static void
 			color += *field - 'a' + 10;
 		field += 1;
 	}
-	vert->col.el[0] = (float)((color >> 0) & 0xFF) / 0xFF;
-	vert->col.el[1] = (float)((color >> 8) & 0xFF) / 0xFF;
-	vert->col.el[2] = (float)((color >> 16) & 0xFF) / 0xFF;
+	vert->map_col.el[0] = (float)((color >> 0) & 0xFF) / 0xFF;
+	vert->map_col.el[1] = (float)((color >> 8) & 0xFF) / 0xFF;
+	vert->map_col.el[2] = (float)((color >> 16) & 0xFF) / 0xFF;
 }
 
 static t_vert

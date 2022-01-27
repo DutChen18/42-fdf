@@ -1,15 +1,16 @@
-SRC=main.c math.c util.c transform.c img.c matrix.c render.c mouse.c vector.c \
+SRC=main.c math.c util.c transform.c img.c matrix.c render.c mouse.c vector.c keyboard.c \
 	get_next_line/get_next_line.c get_next_line/get_next_line_utils.c
 OBJ=$(SRC:.c=.o)
 CFLAGS=-Wall -Wextra -Werror -O3 -flto -march=native -DBUFFER_SIZE=1024
 NAME=fdf
+INC=fdf.h
 
 all: $(NAME)
 
 $(NAME): $(OBJ) mlx/libmlx.a libft/libft.a
 	$(CC) $(CFLAGS) -o $@ $^ -framework OpenGL -framework AppKit
 
-%.o: %.c
+%.o: %.c $(INC)
 	$(CC) $(CFLAGS) -o $@ $< -c
 
 mlx/libmlx.a:

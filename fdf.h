@@ -6,7 +6,7 @@
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/18 14:20:27 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/01/25 15:54:46 by csteenvo      ########   odam.nl         */
+/*   Updated: 2022/01/27 12:12:12 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ struct s_vert
 	int		height;
 	t_vec	pos;
 	t_vec	col;
+	t_vec	map_col;
 };
 
 struct s_fdf
@@ -51,6 +52,8 @@ struct s_fdf
 	int		win_height;
 	size_t	map_width;
 	size_t	map_height;
+	int		min;
+	int		max;
 	t_vec	translate;
 	t_vec	scale;
 	t_vec	rotate;
@@ -59,6 +62,7 @@ struct s_fdf
 	int		mouse_x;
 	int		mouse_y;
 	int		use_persp;
+	int		color_mode;
 };
 
 t_vec	mat_column(t_mat lhs, int rhs);
@@ -92,6 +96,10 @@ t_vert	*fdf_read(size_t *width, size_t *height, const char *filename);
 
 void	fdf_update(t_fdf *fdf);
 void	fdf_render(t_fdf *fdf);
+
+int		close_hook(t_fdf *fdf);
+int		key_down_hook(int keycode, t_fdf *fdf);
+int		key_up_hook(int keycode, t_fdf *fdf);
 
 int		mouse_down_hook(int button, int x, int y, t_fdf *fdf);
 int		mouse_up_hook(int button, int x, int y, t_fdf *fdf);
