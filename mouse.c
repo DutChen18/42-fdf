@@ -6,7 +6,7 @@
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/25 11:29:12 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/01/27 16:04:38 by csteenvo      ########   odam.nl         */
+/*   Updated: 2022/01/28 12:46:43 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ int
 {
 	if (fdf->mouse_1_down)
 	{
-		fdf->rotate.el[0] -= (float)(x - fdf->mouse_x) / fdf->win_height * 4;
-		fdf->rotate.el[1] -= (float)(y - fdf->mouse_y) / fdf->win_height * 4;
+		fdf->rotate.el[0] -= (x - fdf->mouse_x) / (fdf->win_height / 4.0);
+		fdf->rotate.el[1] -= (y - fdf->mouse_y) / (fdf->win_height / 4.0);
 		if (fdf->rotate.el[1] > M_PI / 2 - M_PI / 16)
 			fdf->rotate.el[1] = M_PI / 2 - M_PI / 16;
 		if (fdf->rotate.el[1] < M_PI / 16)
@@ -55,8 +55,8 @@ int
 	}
 	if (fdf->mouse_2_down)
 	{
-		fdf->translate.el[0] += (float)(x - fdf->mouse_x) * (2.0 / fdf->win_width);
-		fdf->translate.el[1] += (float)(y - fdf->mouse_y) * (2.0 / fdf->win_width);
+		fdf->translate.el[0] += (x - fdf->mouse_x) * (2.0 / fdf->win_width);
+		fdf->translate.el[1] += (y - fdf->mouse_y) * (2.0 / fdf->win_width);
 	}
 	fdf->mouse_x = x;
 	fdf->mouse_y = y;
