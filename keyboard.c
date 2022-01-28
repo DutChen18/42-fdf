@@ -6,7 +6,7 @@
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/27 11:18:44 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/01/27 15:15:14 by csteenvo      ########   odam.nl         */
+/*   Updated: 2022/01/28 14:47:49 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int
 	if (keycode == 125)
 		fdf->scale.el[2] /= 2;
 	if (keycode == 8)
-		fdf->color_mode = (fdf->color_mode + 1) % 3;
+		fdf->color_mode = (fdf->color_mode + 1) % 4;
 	return (0);
 }
 

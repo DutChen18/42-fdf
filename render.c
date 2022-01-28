@@ -6,15 +6,13 @@
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/24 15:46:46 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/01/28 14:09:07 by csteenvo      ########   odam.nl         */
+/*   Updated: 2022/01/28 14:47:43 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include "mlx/mlx.h"
 #include <math.h>
-
-#include <stdio.h>
 
 static t_mat
 	compute_matrix(t_fdf *fdf)
@@ -44,12 +42,12 @@ static t_vec
 	float	tmp;
 
 	if (fdf->color_mode == 0)
-	{
 		return (vert.map_col);
-	}
 	else if (fdf->color_mode == 1)
+		return (vec_new(0.8, 0.8, 0.8, 0));
+	else if (fdf->color_mode == 2)
 	{
-		tmp = 1 - (float)(vert.height + fdf->min) / (fdf->max - fdf->min);
+		tmp = 1 - (float)(vert.height - fdf->min) / (fdf->max - fdf->min);
 		return (vec_new(0.8, tmp * 0.4 + 0.4, 0.8, 0));
 	}
 	else

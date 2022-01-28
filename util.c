@@ -6,7 +6,7 @@
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/24 10:15:10 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/01/28 14:22:36 by csteenvo      ########   odam.nl         */
+/*   Updated: 2022/01/28 14:46:21 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static char
 	fdf_assert(fields != NULL, "ft_split");
 	fdf_assert(*fields != NULL, "empty line");
 	*size = 0;
-	while (fields[*size] != NULL)
+	while (fields[*size] != NULL && *fields[*size] != '\n')
 		*size += 1;
 	return (fields);
 }
@@ -44,7 +44,7 @@ static void
 	int	color;
 
 	vert->height = ft_atoi(field);
-	vert->map_col = vec_new(0.8f, 0.8f, 0.8f, 0);
+	vert->map_col = vec_new(0.5, 0.5, 0.5, 0);
 	while (*field != '\0' && *field != 'x')
 		field += 1;
 	if (*field == '\0')
