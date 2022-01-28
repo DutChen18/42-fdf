@@ -1,4 +1,5 @@
-SRC=main.c math.c util.c transform.c img.c matrix.c render.c mouse.c vector.c keyboard.c \
+SRC=main.c math.c util.c transform.c img.c matrix.c \
+	render.c mouse.c vector.c keyboard.c clip.c \
 	get_next_line/get_next_line.c get_next_line/get_next_line_utils.c
 OBJ=$(SRC:.c=.o)
 OPTARGS=-O3 -flto -march=native

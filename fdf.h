@@ -6,7 +6,7 @@
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/18 14:20:27 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/01/28 14:09:20 by csteenvo      ########   odam.nl         */
+/*   Updated: 2022/01/28 16:20:55 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,9 @@ struct s_fdf
 	int		mouse_x;
 	int		mouse_y;
 	int		use_persp;
+	int		use_fog;
 	int		color_mode;
+	int		draw_mode;
 };
 
 t_vec	mat_column(t_mat lhs, int rhs);
@@ -91,12 +93,13 @@ void	img_line(t_fdf *fdf, t_vert from, t_vert to);
 void	fdf_assert(int condition, const char *message);
 t_vert	*fdf_read(size_t *width, size_t *height, const char *filename);
 
+t_vec	clip_convert(t_fdf *fdf, t_vec vec);
+void	clip_line(t_fdf *fdf, t_vert from, t_vert to);
 void	fdf_render(t_fdf *fdf);
 
 int		close_hook(t_fdf *fdf);
 int		key_down_hook(int keycode, t_fdf *fdf);
 int		key_up_hook(int keycode, t_fdf *fdf);
-
 int		mouse_down_hook(int button, int x, int y, t_fdf *fdf);
 int		mouse_up_hook(int button, int x, int y, t_fdf *fdf);
 int		mouse_moved_hook(int x, int y, t_fdf *fdf);

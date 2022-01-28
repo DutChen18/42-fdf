@@ -6,7 +6,7 @@
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/24 15:46:46 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/01/28 14:47:43 by csteenvo      ########   odam.nl         */
+/*   Updated: 2022/01/28 16:25:58 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,61 +40,48 @@ static t_vec
 	compute_color(t_fdf *fdf, t_vert vert)
 {
 	float	tmp;
+	t_vec	vec;
 
+	tmp = 1 - (float)(vert.height - fdf->min) / (fdf->max - fdf->min);
 	if (fdf->color_mode == 0)
-		return (vert.map_col);
+		vec = vert.map_col;
 	else if (fdf->color_mode == 1)
-		return (vec_new(0.8, 0.8, 0.8, 0));
-	else if (fdf->color_mode == 2)
-	{
-		tmp = 1 - (float)(vert.height - fdf->min) / (fdf->max - fdf->min);
-		return (vec_new(0.8, tmp * 0.4 + 0.4, 0.8, 0));
-	}
+		vec = vec_new(0.8, tmp * 0.4 + 0.4, 0.8, 0);
 	else
+		vec = vec_new(1, 1, 1, 0);
+	if (fdf->use_fog)
 	{
 		tmp = 1 - (vert.pos.el[2] / vert.pos.el[3] + 2) / 2;
 		if (tmp > 1)
 			tmp = 1;
 		if (tmp < 0)
 			tmp = 0;
-		return (vec_new(tmp, tmp, tmp, 0));
+		vec = vec_scale(vec, tmp);
 	}
-}
-
-static int
-	clip_axis(t_vert *from, t_vert to, int axis, float sign)
-{
-	float	scale;
-
-	if (from->pos.el[axis] * sign < from->pos.el[3])
-		return (0);
-	if (to.pos.el[axis] * sign > to.pos.el[3])
-		return (1);
-	scale = to.pos.el[3] - to.pos.el[axis] * sign;
-	scale = scale / (scale - (from->pos.el[3] - from->pos.el[axis] * sign));
-	from->pos = vec_add(vec_scale(vec_sub(from->pos, to.pos), scale), to.pos);
-	from->col = vec_add(vec_scale(vec_sub(from->col, to.col), scale), to.col);
-	return (0);
+	return (vec);
 }
 
 static void
-	draw_line(t_fdf *fdf, t_vert from, t_vert to)
+	draw(t_fdf *fdf)
 {
-	if (clip_axis(&from, to, 0, 1) || clip_axis(&from, to, 0, -1))
-		return ;
-	if (clip_axis(&from, to, 1, 1) || clip_axis(&from, to, 1, -1))
-		return ;
-	if (clip_axis(&to, from, 0, 1) || clip_axis(&to, from, 0, -1))
-		return ;
-	if (clip_axis(&to, from, 1, 1) || clip_axis(&to, from, 1, -1))
-		return ;
-	from.pos = vec_scale(from.pos, 1 / from.pos.el[3]);
-	from.pos.el[0] = (from.pos.el[0] + 1) * fdf->win_width / 2;
-	from.pos.el[1] = (from.pos.el[1] + 1) * fdf->win_height / 2;
-	to.pos = vec_scale(to.pos, 1 / to.pos.el[3]);
-	to.pos.el[0] = (to.pos.el[0] + 1) * fdf->win_width / 2;
-	to.pos.el[1] = (to.pos.el[1] + 1) * fdf->win_height / 2;
-	img_line(fdf, from, to);
+	size_t	i;
+
+	i = 0;
+	while (i < fdf->map_width * fdf->map_height)
+	{
+		if (fdf->draw_mode == 0)
+		{
+			if (i % fdf->map_width != 0)
+				clip_line(fdf, fdf->map[i], fdf->map[i - 1]);
+			if (i / fdf->map_width != 0)
+				clip_line(fdf, fdf->map[i], fdf->map[i - fdf->map_width]);
+		}
+		else
+		{
+			img_put(fdf, clip_convert(fdf, fdf->map[i].pos), fdf->map[i].col);
+		}
+		i += 1;
+	}
 }
 
 void
@@ -116,13 +103,5 @@ void
 		fdf->map[i].col = compute_color(fdf, fdf->map[i]);
 		i += 1;
 	}
-	i = 0;
-	while (i < fdf->map_width * fdf->map_height)
-	{
-		if (i % fdf->map_width != 0)
-			draw_line(fdf, fdf->map[i], fdf->map[i - 1]);
-		if (i / fdf->map_width != 0)
-			draw_line(fdf, fdf->map[i], fdf->map[i - fdf->map_width]);
-		i += 1;
-	}
+	draw(fdf);
 }

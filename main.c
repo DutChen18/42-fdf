@@ -6,7 +6,7 @@
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/18 15:56:53 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/01/28 14:38:16 by csteenvo      ########   odam.nl         */
+/*   Updated: 2022/01/28 16:21:04 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,9 @@ int
 	fdf.mouse_1_down = 0;
 	fdf.mouse_2_down = 0;
 	fdf.use_persp = 0;
+	fdf.use_fog = 0;
 	fdf.color_mode = 0;
+	fdf.draw_mode = 0;
 	init_hooks(&fdf);
 	mlx_loop(fdf.mlx);
 	return (0);
