@@ -6,7 +6,7 @@
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/24 10:15:10 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/01/27 16:22:35 by csteenvo      ########   odam.nl         */
+/*   Updated: 2022/01/28 13:25:19 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,6 @@ void
 	if (!condition)
 	{
 		ft_putendl_fd((char *) message, STDERR_FILENO);
-		(void) message;
 		exit(EXIT_FAILURE);
 	}
 }

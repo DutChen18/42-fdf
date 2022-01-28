@@ -6,7 +6,7 @@
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/18 15:56:53 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/01/27 15:54:44 by csteenvo      ########   odam.nl         */
+/*   Updated: 2022/01/28 14:09:25 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ static int
 	int		tmp;
 
 	img_clear(fdf, vec_new(0, 0, 0, 0));
-	fdf_update(fdf);
 	fdf_render(fdf);
 	tmp = mlx_put_image_to_window(fdf->mlx, fdf->win, fdf->img, 0, 0);
 	fdf_assert(tmp, "mlx_put_image_to_window");
@@ -76,13 +75,13 @@ static void
 			fdf->max = fdf->map[i].height;
 		i += 1;
 	}
-	fdf->map_scale = fdf->map_width + fdf->map_height + fdf->max - fdf->min;
 }
 
 int
 	main(int argc, char **argv)
 {
 	t_fdf	fdf;
+	float	map_scale;
 
 	fdf_assert(argc == 2, "argc");
 	fdf.win_width = 1280;
@@ -90,8 +89,9 @@ int
 	init_fdf(&fdf);
 	fdf.map = fdf_read(&fdf.map_width, &fdf.map_height, argv[1]);
 	init_props(&fdf);
+	map_scale = 2.0 / (fdf.map_width + fdf.map_height + fdf.max - fdf.min);
 	fdf.translate = vec_new(0, 0, 0, 0);
-	fdf.scale = vec_new(1, 1, 1, 1);
+	fdf.scale = vec_new(map_scale, map_scale, map_scale, 1);
 	fdf.rotate = vec_new(M_PI / 4, M_PI / 4, 0, 0);
 	fdf.mouse_1_down = 0;
 	fdf.mouse_2_down = 0;

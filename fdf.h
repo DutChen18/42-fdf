@@ -6,7 +6,7 @@
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/18 14:20:27 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/01/27 15:54:08 by csteenvo      ########   odam.nl         */
+/*   Updated: 2022/01/28 14:09:20 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,10 @@ struct s_mat
 
 struct s_vert
 {
-	int		height;
 	t_vec	pos;
 	t_vec	col;
 	t_vec	map_col;
-	int		clip;
+	int		height;
 };
 
 struct s_fdf
@@ -61,7 +60,6 @@ struct s_fdf
 	int		mouse_y;
 	int		use_persp;
 	int		color_mode;
-	float	map_scale;
 };
 
 t_vec	mat_column(t_mat lhs, int rhs);
@@ -93,7 +91,6 @@ void	img_line(t_fdf *fdf, t_vert from, t_vert to);
 void	fdf_assert(int condition, const char *message);
 t_vert	*fdf_read(size_t *width, size_t *height, const char *filename);
 
-void	fdf_update(t_fdf *fdf);
 void	fdf_render(t_fdf *fdf);
 
 int		close_hook(t_fdf *fdf);
