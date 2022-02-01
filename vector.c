@@ -6,11 +6,23 @@
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/25 12:34:41 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/01/25 12:38:22 by csteenvo      ########   odam.nl         */
+/*   Updated: 2022/02/01 08:18:56 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+t_vec
+	vec_new(float x, float y, float z, float w)
+{
+	t_vec	vec;
+
+	vec.el[0] = x;
+	vec.el[1] = y;
+	vec.el[2] = z;
+	vec.el[3] = w;
+	return (vec);
+}
 
 t_vec
 	vec_add(t_vec lhs, t_vec rhs)

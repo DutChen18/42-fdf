@@ -6,7 +6,7 @@
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/24 15:46:46 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/01/28 16:25:58 by csteenvo      ########   odam.nl         */
+/*   Updated: 2022/02/01 08:10:54 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,20 +65,23 @@ static void
 	draw(t_fdf *fdf)
 {
 	size_t	i;
+	t_vert	vert;
 
 	i = 0;
 	while (i < fdf->map_width * fdf->map_height)
 	{
+		vert = fdf->map[i];
 		if (fdf->draw_mode == 0)
 		{
 			if (i % fdf->map_width != 0)
-				clip_line(fdf, fdf->map[i], fdf->map[i - 1]);
+				clip_line(fdf, vert, fdf->map[i - 1]);
 			if (i / fdf->map_width != 0)
-				clip_line(fdf, fdf->map[i], fdf->map[i - fdf->map_width]);
+				clip_line(fdf, vert, fdf->map[i - fdf->map_width]);
 		}
 		else
 		{
-			img_put(fdf, clip_convert(fdf, fdf->map[i].pos), fdf->map[i].col);
+			if (clip(vert.pos))
+				img_put(fdf, clip_convert(fdf, vert.pos), vert.col);
 		}
 		i += 1;
 	}

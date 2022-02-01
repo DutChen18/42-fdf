@@ -6,7 +6,7 @@
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/18 14:20:27 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/01/28 16:20:55 by csteenvo      ########   odam.nl         */
+/*   Updated: 2022/02/01 08:21:55 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,11 @@ t_mat	mat_rotate_x(float v);
 t_mat	mat_rotate_y(float v);
 t_mat	mat_rotate_z(float v);
 
+t_vec	vec_new(float x, float y, float z, float w);
 t_vec	vec_add(t_vec lhs, t_vec rhs);
 t_vec	vec_sub(t_vec lhs, t_vec rhs);
 t_vec	vec_scale(t_vec lhs, float rhs);
 
-t_vec	vec_new(float x, float y, float z, float w);
 t_mat	mat_new(t_vec x, t_vec y, t_vec z, t_vec w);
 t_mat	mat_identity(void);
 t_mat	mat_ortho(t_vec min, t_vec max);
@@ -90,11 +90,11 @@ void	img_put(t_fdf *fdf, t_vec pos, t_vec col);
 void	img_clear(t_fdf *fdf, t_vec col);
 void	img_line(t_fdf *fdf, t_vert from, t_vert to);
 
-void	fdf_assert(int condition, const char *message);
-t_vert	*fdf_read(size_t *width, size_t *height, const char *filename);
-
 t_vec	clip_convert(t_fdf *fdf, t_vec vec);
 void	clip_line(t_fdf *fdf, t_vert from, t_vert to);
+int		clip(t_vec vec);
+void	fdf_assert(int condition, const char *message);
+t_vert	*fdf_read(size_t *width, size_t *height, const char *filename);
 void	fdf_render(t_fdf *fdf);
 
 int		close_hook(t_fdf *fdf);

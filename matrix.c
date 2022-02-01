@@ -6,23 +6,11 @@
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/20 10:00:25 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/01/28 13:50:12 by csteenvo      ########   odam.nl         */
+/*   Updated: 2022/02/01 08:18:49 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-
-t_vec
-	vec_new(float x, float y, float z, float w)
-{
-	t_vec	vec;
-
-	vec.el[0] = x;
-	vec.el[1] = y;
-	vec.el[2] = z;
-	vec.el[3] = w;
-	return (vec);
-}
 
 t_mat
 	mat_new(t_vec x, t_vec y, t_vec z, t_vec w)

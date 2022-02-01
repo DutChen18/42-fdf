@@ -6,7 +6,7 @@
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/28 16:08:46 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/01/28 16:17:03 by csteenvo      ########   odam.nl         */
+/*   Updated: 2022/02/01 08:11:49 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,14 @@ void
 	from.pos = clip_convert(fdf, from.pos);
 	to.pos = clip_convert(fdf, to.pos);
 	img_line(fdf, from, to);
+}
+
+int
+	clip(t_vec vec)
+{
+	if (vec.el[0] > vec.el[3] || vec.el[0] < -vec.el[3])
+		return (0);
+	if (vec.el[1] > vec.el[3] || vec.el[1] < -vec.el[3])
+		return (0);
+	return (1);
 }
