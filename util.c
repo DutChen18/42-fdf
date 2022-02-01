@@ -6,7 +6,7 @@
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/24 10:15:10 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/02/01 08:21:47 by csteenvo      ########   odam.nl         */
+/*   Updated: 2022/02/01 08:50:20 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,18 @@
 #include <string.h>
 
 static char
-	**split_next_line(int fd, size_t *size)
+	**split_next_line(t_fdf *fdf, size_t *size)
 {
 	char	*line;
 	char	**fields;
 
-	line = get_next_line(fd);
+	line = get_next_line(fdf->fd);
 	if (line == NULL)
 		return (NULL);
 	fields = ft_split(line, ' ');
 	free(line);
-	fdf_assert(fields != NULL, "ft_split");
-	fdf_assert(*fields != NULL, "empty line");
+	fdf_assert(fdf, fields != NULL, "ft_split", NULL);
+	fdf_assert(fdf, *fields != NULL, "empty line", fields);
 	*size = 0;
 	while (fields[*size] != NULL && *fields[*size] != '\n')
 		*size += 1;
@@ -66,65 +66,65 @@ static void
 	vert->map_col.el[2] = (float)((color >> 16) & 0xFF) / 0xFF;
 }
 
-static t_vert
-	*fdf_expand(t_vert *verts, size_t width, size_t height, char **fields)
+static void
+	fdf_expand(t_fdf *fdf, char **fields)
 {
 	t_vert	*new_verts;
 	size_t	i;
 
-	if ((height & (height - 1)) == 0)
+	if ((fdf->map_height & (fdf->map_height - 1)) == 0)
 	{
-		if (height == 0)
-			new_verts = malloc(width * sizeof(*new_verts));
+		i = fdf->map_width * fdf->map_height;
+		if (fdf->map_height == 0)
+			new_verts = malloc(fdf->map_width * sizeof(*new_verts));
 		else
-			new_verts = malloc(width * height * 2 * sizeof(*new_verts));
-		fdf_assert(new_verts != NULL, "malloc");
-		ft_memcpy(new_verts, verts, width * height * sizeof(*verts));
-		free(verts);
-		verts = new_verts;
+			new_verts = malloc(i * 2 * sizeof(*new_verts));
+		fdf_assert(fdf, new_verts != NULL, "malloc", NULL);
+		ft_memcpy(new_verts, fdf->map, i * sizeof(*fdf->map));
+		free(fdf->map);
+		fdf->map = new_verts;
 	}
 	i = 0;
-	while (i < width)
+	while (i < fdf->map_width)
 	{
-		fdf_parse(&verts[width * height + i], fields[i]);
+		fdf_parse(&fdf->map[fdf->map_width * fdf->map_height + i], fields[i]);
 		i += 1;
 	}
-	return (verts);
 }
 
 void
-	fdf_assert(int condition, const char *message)
+	fdf_assert(t_fdf *fdf, int condition, const char *message, void *ptr)
 {
 	if (!condition)
 	{
+		free(ptr);
+		if (fdf->fd != -1)
+			close(fdf->fd);
 		ft_putendl_fd((char *) message, STDERR_FILENO);
-		exit(EXIT_FAILURE);
+		fdf_exit(fdf, EXIT_FAILURE);
 	}
 }
 
-t_vert
-	*fdf_read(size_t *width, size_t *height, const char *filename)
+void
+	fdf_read(t_fdf *fdf, const char *filename)
 {
 	char	**fields;
-	int		fd;
-	t_vert	*verts;
 	size_t	size;
 
-	fd = open(filename, O_RDONLY);
-	fdf_assert(fd >= 0, strerror(errno));
-	fields = split_next_line(fd, &size);
-	fdf_assert(fields != NULL, "empty file");
-	verts = NULL;
-	*width = size;
-	*height = 0;
+	fdf->fd = open(filename, O_RDONLY);
+	fdf_assert(fdf, fdf->fd >= 0, strerror(errno), NULL);
+	fields = split_next_line(fdf, &size);
+	fdf_assert(fdf, fields != NULL, "empty file", NULL);
+	fdf->map_width = size;
+	fdf->map_height = 0;
 	while (fields != NULL)
 	{
-		fdf_assert(size >= *width, "line too short");
-		verts = fdf_expand(verts, *width, *height, fields);
+		fdf_assert(fdf, size >= fdf->map_width, "line too short", fields);
+		fdf_expand(fdf, fields);
 		free(fields);
-		*height += 1;
-		fields = split_next_line(fd, &size);
+		fdf->map_height += 1;
+		fields = split_next_line(fdf, &size);
 	}
-	close(fd);
-	return (verts);
+	close(fdf->fd);
+	fdf->fd = -1;
 }

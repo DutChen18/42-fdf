@@ -6,7 +6,7 @@
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/20 11:51:39 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/01/28 12:41:47 by csteenvo      ########   odam.nl         */
+/*   Updated: 2022/02/01 08:56:38 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void
 		fdf->color[i * 4 + 0] = col.el[0] * 0xFF;
 		fdf->color[i * 4 + 1] = col.el[1] * 0xFF;
 		fdf->color[i * 4 + 2] = col.el[2] * 0xFF;
+		fdf->color[i * 4 + 3] = col.el[3] * 0xFF;
 		fdf->depth[i] = INFINITY;
 		i += 1;
 	}

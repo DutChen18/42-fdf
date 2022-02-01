@@ -6,7 +6,7 @@
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/28 16:08:46 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/02/01 08:11:49 by csteenvo      ########   odam.nl         */
+/*   Updated: 2022/02/01 08:54:59 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int
 	return (0);
 }
 
-t_vec
+static t_vec
 	clip_convert(t_fdf *fdf, t_vec vec)
 {
 	vec = vec_scale(vec, 1 / vec.el[3]);
@@ -53,12 +53,13 @@ void
 	img_line(fdf, from, to);
 }
 
-int
-	clip(t_vec vec)
+void
+	clip_point(t_fdf *fdf, t_vert vert)
 {
-	if (vec.el[0] > vec.el[3] || vec.el[0] < -vec.el[3])
-		return (0);
-	if (vec.el[1] > vec.el[3] || vec.el[1] < -vec.el[3])
-		return (0);
-	return (1);
+	if (vert.pos.el[0] > vert.pos.el[3] || vert.pos.el[0] < -vert.pos.el[3])
+		return ;
+	if (vert.pos.el[1] > vert.pos.el[3] || vert.pos.el[1] < -vert.pos.el[3])
+		return ;
+	vert.pos = clip_convert(fdf, vert.pos);
+	img_put(fdf, vert.pos, vert.col);
 }

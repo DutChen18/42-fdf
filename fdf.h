@@ -6,7 +6,7 @@
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/18 14:20:27 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/02/01 08:21:55 by csteenvo      ########   odam.nl         */
+/*   Updated: 2022/02/01 08:55:07 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ struct s_fdf
 	int		use_fog;
 	int		color_mode;
 	int		draw_mode;
+	int		fd;
 };
 
 t_vec	mat_column(t_mat lhs, int rhs);
@@ -90,11 +91,12 @@ void	img_put(t_fdf *fdf, t_vec pos, t_vec col);
 void	img_clear(t_fdf *fdf, t_vec col);
 void	img_line(t_fdf *fdf, t_vert from, t_vert to);
 
-t_vec	clip_convert(t_fdf *fdf, t_vec vec);
 void	clip_line(t_fdf *fdf, t_vert from, t_vert to);
-int		clip(t_vec vec);
-void	fdf_assert(int condition, const char *message);
-t_vert	*fdf_read(size_t *width, size_t *height, const char *filename);
+void	clip_point(t_fdf *fdf, t_vert vert);
+
+void	fdf_exit(t_fdf *fdf, int status);
+void	fdf_assert(t_fdf *fdf, int condition, const char *message, void *ptr);
+void	fdf_read(t_fdf *fdf, const char *filename);
 void	fdf_render(t_fdf *fdf);
 
 int		close_hook(t_fdf *fdf);

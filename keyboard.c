@@ -6,18 +6,31 @@
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/27 11:18:44 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/01/28 16:24:22 by csteenvo      ########   odam.nl         */
+/*   Updated: 2022/02/01 08:48:11 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+#include "mlx/mlx.h"
 #include <stdlib.h>
+#include <unistd.h>
+
+void
+	fdf_exit(t_fdf *fdf, int status)
+{
+	if (fdf->img != NULL)
+		mlx_destroy_image(fdf->mlx, fdf->img);
+	if (fdf->win != NULL)
+		mlx_destroy_window(fdf->mlx, fdf->win);
+	free(fdf->map);
+	free(fdf->depth);
+	exit(status);
+}
 
 int
 	close_hook(t_fdf *fdf)
 {
-	(void) fdf;
-	exit(EXIT_SUCCESS);
+	fdf_exit(fdf, EXIT_SUCCESS);
 	return (0);
 }
 
@@ -25,7 +38,7 @@ int
 	key_down_hook(int keycode, t_fdf *fdf)
 {
 	if (keycode == 53 || keycode == 12)
-		exit(EXIT_SUCCESS);
+		fdf_exit(fdf, EXIT_SUCCESS);
 	if (keycode == 35)
 		fdf->use_persp = !fdf->use_persp;
 	if (keycode == 3)
