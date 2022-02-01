@@ -6,7 +6,7 @@
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/18 15:56:53 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/02/01 09:48:05 by csteenvo      ########   odam.nl         */
+/*   Updated: 2022/02/01 11:46:56 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int
 	fdf.img = NULL;
 	fdf.map = NULL;
 	fdf.depth = NULL;
-	fdf_assert(&fdf, argc == 2, "argc", NULL);
+	fdf_assert(&fdf, argc == 2, "usage: ./fdf [map]", NULL);
 	fdf_read(&fdf, argv[1]);
 	fdf.win_width = 1280;
 	fdf.win_height = 960;

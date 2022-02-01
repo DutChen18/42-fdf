@@ -6,7 +6,7 @@
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/18 14:20:27 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/02/01 08:55:07 by csteenvo      ########   odam.nl         */
+/*   Updated: 2022/02/01 11:43:09 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	clip_line(t_fdf *fdf, t_vert from, t_vert to);
 void	clip_point(t_fdf *fdf, t_vert vert);
 
 void	fdf_exit(t_fdf *fdf, int status);
-void	fdf_assert(t_fdf *fdf, int condition, const char *message, void *ptr);
+void	fdf_assert(t_fdf *fdf, int condition, const char *message, char **ptr);
 void	fdf_read(t_fdf *fdf, const char *filename);
 void	fdf_render(t_fdf *fdf);
 

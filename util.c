@@ -6,7 +6,7 @@
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/24 10:15:10 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/02/01 08:50:20 by csteenvo      ########   odam.nl         */
+/*   Updated: 2022/02/01 11:45:14 by csteenvo      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,11 +93,22 @@ static void
 }
 
 void
-	fdf_assert(t_fdf *fdf, int condition, const char *message, void *ptr)
+	fdf_assert(t_fdf *fdf, int condition, const char *message, char **ptr)
 {
+	size_t	i;
+
 	if (!condition)
 	{
-		free(ptr);
+		if (ptr != NULL)
+		{
+			i = 0;
+			while (ptr[i] != NULL)
+			{
+				free(ptr[i]);
+				i += 1;
+			}
+			free(ptr);
+		}
 		if (fdf->fd != -1)
 			close(fdf->fd);
 		ft_putendl_fd((char *) message, STDERR_FILENO);
@@ -121,6 +132,12 @@ void
 	{
 		fdf_assert(fdf, size >= fdf->map_width, "line too short", fields);
 		fdf_expand(fdf, fields);
+		size = 0;
+		while (fields[size] != NULL)
+		{
+			free(fields[size]);
+			size += 1;
+		}
 		free(fields);
 		fdf->map_height += 1;
 		fields = split_next_line(fdf, &size);
