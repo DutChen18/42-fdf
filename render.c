@@ -6,7 +6,7 @@
 /*   By: csteenvo <csteenvo@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/24 15:46:46 by csteenvo      #+#    #+#                 */
-/*   Updated: 2022/02/01 08:55:46 by csteenvo      ########   odam.nl         */
+/*   Updated: 2022/03/31 09:59:14 by csteenvo            :      ..            */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static t_vec
 			tmp = 1;
 		if (tmp < 0)
 			tmp = 0;
-		vec = vec_scale(vec, tmp);
+		vec = vec_scale(vec, tmp * 0.875 + 0.125);
 	}
 	return (vec);
 }
